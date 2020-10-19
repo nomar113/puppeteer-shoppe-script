@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const credentials = require("./credentials.json");
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false, defaultViewport: null, });
   const page = await browser.newPage();
   await page.setViewport({ width: 1360, height: 768 });
 
@@ -14,6 +14,8 @@ const credentials = require("./credentials.json");
   await page.title(
     "Shopee Brasil | Ofertas incríveis. Melhores preços do mercado"
   );  
+
+  await page.waitFor(10000);
 
   await page.type('input[name="loginKey"]', credentials.username, {
     delay: 100,
@@ -36,6 +38,7 @@ const credentials = require("./credentials.json");
         element.click();
       });
     getDailyCoins.click();
+    console.log('Get the daily coins!');
   } catch {
     console.log("Daily Coins got!");
   }
@@ -48,7 +51,7 @@ const credentials = require("./credentials.json");
 
   const frames = await page.frames();
 
-  console.log(frames[1]);
+  await page.waitFor(10000);
 
   const goldenEgg = await frames[1].$('div#clickArea');
 
