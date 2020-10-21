@@ -5,7 +5,6 @@ const credentials = require("./credentials.json");
 (async () => {
   const browser = await puppeteer.launch({ headless: false, defaultViewport: null, });
   const page = await browser.newPage();
-  await page.setViewport({ width: 1360, height: 768 });
 
   await page.goto(
     "https://shopee.com.br/buyer/login?next=https%253A%252F%252Fshopee.com.br%252Fshopee-coins%252F"
@@ -15,7 +14,7 @@ const credentials = require("./credentials.json");
     "Shopee Brasil | Ofertas incríveis. Melhores preços do mercado"
   );  
 
-  await page.waitFor(10000);
+  await page.waitForSelector('input[name="loginKey"]');
 
   await page.type('input[name="loginKey"]', credentials.username, {
     delay: 100,
