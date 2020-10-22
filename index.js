@@ -7,7 +7,9 @@ const credentials = require("./credentials.json");
   const page = await browser.newPage();
 
   await page.goto(
-    "https://shopee.com.br/buyer/login?next=https%253A%252F%252Fshopee.com.br%252Fshopee-coins%252F"
+    "https://shopee.com.br/buyer/login?next=https%253A%252F%252Fshopee.com.br%252Fshopee-coins%252F", {
+      timeout: 0
+    }
   );
 
   await page.title(
@@ -42,7 +44,9 @@ const credentials = require("./credentials.json");
     console.log("Daily Coins got!");
   }
 
-  await page.goto('https://shopee.com.br/pc_event/?url=https%3A%2F%2Fgames.shopee.com.br%2Fluckydraw%2Fbox%2Factivity%2F98e3907a3419e0e4');
+  await page.goto('https://shopee.com.br/pc_event/?url=https%3A%2F%2Fgames.shopee.com.br%2Fluckydraw%2Fbox%2Factivity%2F98e3907a3419e0e4', {
+    timeout: 0
+  });
   
   await page.title('Shopee Brasil | Ofertas incríveis. Melhores preços do mercado');
 
@@ -50,8 +54,10 @@ const credentials = require("./credentials.json");
 
   const frames = await page.frames();
 
-  await page.waitFor(10000);
-
+  await frames[1].waitForSelector('div#clickArea', {
+    timeout: 0
+  });
+  
   const goldenEgg = await frames[1].$('div#clickArea');
 
   await goldenEgg.click();
