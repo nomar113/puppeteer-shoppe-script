@@ -1,9 +1,15 @@
 const puppeteer = require("puppeteer");
+const schedule = require('node-schedule');
 
 const shopeeGetDailyCoins = require("./shopee.js");
 
-(async () => {
-  const browser = await puppeteer.launch({ headless: false, defaultViewport: null, });
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [new schedule.Range(0, 6)];
+rule.hour = [new schedule.Range(8,21)];
+rule.minute = 0;
+ 
+schedule.scheduleJob(rule, async function() {
+  const browser = await puppeteer.launch({ headless: true, defaultViewport: null, });
   const page = await browser.newPage();
 
   await shopeeGetDailyCoins(page);
@@ -27,4 +33,4 @@ const shopeeGetDailyCoins = require("./shopee.js");
   await goldenEgg.click();
 
   await browser.close();
-})();
+});
